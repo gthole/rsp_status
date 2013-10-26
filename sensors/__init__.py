@@ -23,6 +23,6 @@ def check_frequent_sensors():
     for sensor in sensors:
         s = sensor()
         last = s.last()
-        now = datetime.now()
+        now = datetime.utcnow()
         if last and last['val'] <= now - timedelta(hour=1):
             s.run()

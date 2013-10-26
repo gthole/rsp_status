@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Raspberry Basement Status</title>
+    	<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" media="all" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" media="all" href="css/styles.css"/>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Raspberry Status</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="status">
+                        <h2>Temperature</h2>
+                        <span class="temp" id="temp"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status">
+                        <h2>Last Occupied</h2>
+                        <span id="motion"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="status">
+                        <h2>Dry?</h2>
+                        <span id="flood"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="temp-graph"></div>
+            <div id="motion-graph"></div>
+        </div>
+    </body>
+
+    <!-- All the javascripts! -->
+    <script src="js/lib/jquery-1.10.2.min.js"></script>
+    <script src="js/lib/d3.v3.min.js"></script>
+    <script src="js/vis/dateplot.js"></script>
+    <script src="js/vis/densityplot.js"></script>
+
+    <script src="js/app.js"></script>
+</html>

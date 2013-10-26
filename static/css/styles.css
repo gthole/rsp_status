@@ -1,0 +1,34 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.area {
+  fill: #081d58;
+}
+
+.hour {
+  fill: #f8f8f8;
+}
+
+h2 {
+  font-weight: bold;
+  text-align: center;
+}
+
+.status {
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  text-align: center;
+  padding: 10px 10px 30px 10px;
+  margin: 0 0 10px 0;
+  background-color: #f8f8f8;
+  min-height: 250px;
+  font-size: 30px;
+}
+
+.temp {
+    font-size: 85px;
+}

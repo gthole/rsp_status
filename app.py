@@ -53,5 +53,5 @@ def make_response(environ):
 
 if __name__ == '__main__':
     from gevent.pywsgi import WSGIServer
-    port = int(os.getenv('PORT', 8000))
+    port = int(os.getenv('PORT', 8888))
     WSGIServer(('0.0.0.0', port), application).serve_forever()

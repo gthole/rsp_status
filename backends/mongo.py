@@ -35,7 +35,7 @@ def load_fixtures():
     Loads some fake data points into mongo for local development
     """
     fixtures = glob.glob(os.path.join('tests', 'fixtures', '*.json'))
-    now = datetime.now()
+    now = datetime.utcnow()
     for fixture in fixtures:
         name = os.path.basename(fixture)[:-5]
         with open(fixture, 'r') as file_:

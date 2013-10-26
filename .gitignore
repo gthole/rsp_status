@@ -2,3 +2,6 @@
 *.pyc
 virtualenv
 .env
+
+# Dev convenience
+static/fixtures

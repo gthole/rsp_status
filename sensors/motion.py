@@ -8,7 +8,7 @@ class MotionSensor(BaseSensor):
     def read(self):
         GPIO.setmode(GPIO.BCM)
 
-        pir_pin = 18
+        pir_pin = 23
 
         GPIO.setup(pir_pin, GPIO.IN)  # activate input
 
