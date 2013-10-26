@@ -2,10 +2,13 @@ from flood import FloodSensor
 from motion import MotionSensor
 from temp import TemperatureSensor
 
+from config import settings
+
+from celery import Celery
 from celery.task.schedules import crontab
 from celery.task import periodic_task
 
-from datetime import datetime, timedelta
+celery = Celery(broker=settings.DB_URI)
 
 
 @periodic_task(run_every=crontab(hour="*"))
@@ -22,7 +25,4 @@ def check_frequent_sensors():
 
     for sensor in sensors:
         s = sensor()
-        last = s.last()
-        now = datetime.utcnow()
-        if last and last['val'] <= now - timedelta(hour=1):
-            s.run()
+        s.run()
