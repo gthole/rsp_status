@@ -11,21 +11,21 @@ ENDPOINTS = ['/temp/', '/motion/', '/flood/']
 
 def application(environ, start_response):
     if environ['REQUEST_METHOD'] != 'GET':
-        status = '405'
+        status = '405 Method Not Allowed'
         data = {'message': 'Only GET requests supported'}
     elif environ['PATH_INFO'] in ENDPOINTS:
         try:
-            status = '200'
+            status = '200 OK'
             data = make_response(environ)
         except iso8601.ParseError:
-            status = '400'
+            status = '400 Not Found'
             data = {'message': 'Malformed parameter'}
         except:
             logging.exception("Caught exception:\n\n%s" % environ)
-            status = '500'
+            status = '500 Server Error'
             data = {'message': 'Server error'}
     else:
-        status = '404'
+        status = '404 Not Found'
         data = {'message': 'Resource not found'}
 
     content = json.dumps(data)
@@ -52,6 +52,6 @@ def make_response(environ):
 
 
 if __name__ == '__main__':
-    from gevent.pywsgi import WSGIServer
+    from wsgiref.simple_server import make_server
     port = int(os.getenv('PORT', 8888))
-    WSGIServer(('0.0.0.0', port), application).serve_forever()
+    make_server('', port, application).serve_forever()
