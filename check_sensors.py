@@ -1,6 +1,4 @@
-from flood import FloodSensor
-from motion import MotionSensor
-from temp import TemperatureSensor
+from sensors import FloodSensor, MotionSensor, TemperatureSensor
 
 import sys
 
