@@ -7,7 +7,7 @@ from base import BaseSensor
 class FloodSensor(BaseSensor):
     collection = 'flood'
 
-    def read():
+    def read(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(settings.FLOOD_PIN, GPIO.OUT)
         GPIO.output(settings.FLOOD_PIN, GPIO.LOW)

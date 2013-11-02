@@ -1,23 +1,23 @@
 $(document).ready(function() {
 
 
-  $.getJSON('/fixtures/lasttemp.json',
+  $.getJSON('http://10.0.1.21:5000/temp/',
     function(response) {
-      $("#temp").html(response.val + '°');
+      $("#temp").html(response[response.length - 1].val + '°');
   });
 
-  $.getJSON('/fixtures/lastmotion.json',
+  $.getJSON('http://10.0.1.21:5000/motion/',
     function(response) {
       dateFormat = d3.time.format('%a %b %d, %Y');
       timeFormat = d3.time.format('%I:%M %p');
-      motion = new Date(response.time);
+      motion = new Date(response[response.length - 1].time);
       $("#motion").html(dateFormat(motion) + '<br />' + timeFormat(motion));
   });
 
-  $.getJSON('/fixtures/flood.json',
+  $.getJSON('http://10.0.1.21:5000/flood/',
     function(response) {
       if (response.length) {
-        $("#flood").html("Ack!");
+        $("#flood").html('<i class="fa fa-warning fa-5x text-warning"></i>');
       } else {
         $("#flood").html('<i class="fa fa-check-square fa-5x text-success"></i>');
       }
@@ -28,13 +28,13 @@ $(document).ready(function() {
     d.setDate(d.getDate() - 7);
     $.getJSON(
       /* '/temp/?since=' + d.toISOString() */
-      '/fixtures/temp.json',
+      'http://10.0.1.21:5000/temp/',
       function(response) {
         datePlot(response, '#temp-graph');
       });
     $.getJSON(
       /* '/motion/?since=' + d.toISOString() */
-      '/fixtures/motion.json',
+      'http://10.0.1.21:5000/motion/',
       function(response) {
         densityPlot(response, '#motion-graph');
       });

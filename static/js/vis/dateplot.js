@@ -37,7 +37,7 @@ function datePlot(data, selector) {
     });
 
     x.domain(d3.extent(data, function(d) { return d.time; }));
-    y.domain([0, d3.max(data, function(d) { return d.val; })]);
+    y.domain([d3.min(data, function(d) { return d.val; }), d3.max(data, function(d) { return d.val; })]);
 
     svg.append("path")
       .datum(data)

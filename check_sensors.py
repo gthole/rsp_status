@@ -1,5 +1,6 @@
 from sensors import FloodSensor, MotionSensor, TemperatureSensor
 
+import time
 import sys
 
 
@@ -9,13 +10,12 @@ SENSOR_REGISTY = {
     'temp': TemperatureSensor
 }
 
-def check_sensors_by_name(sensor_names):
-    sensors = [SENSOR_REGISTY[name] for name in sensor_names
-               if name in SENSOR_REGISTY]
+WAIT_TIME = 60 * int(sys.argv[1])
+SENSORS = [SENSOR_REGISTY[name] for name in sys.argv[2:]
+           if name in SENSOR_REGISTY]
+print "Checking %s every %d seconds" % (SENSORS, WAIT_TIME)
 
-    for sensor in sensors:
+while True:
+    for sensor in SENSORS:
         sensor().run()
-
-
-if __name__ == '__main__':
-    check_sensors_by_name(sys.argv[1:])
+        time.sleep(WAIT_TIME)

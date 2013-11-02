@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 from base import BaseSensor
 from config import settings
+import time
 
 
 class MotionSensor(BaseSensor):
@@ -13,5 +14,7 @@ class MotionSensor(BaseSensor):
 
         GPIO.setup(pir_pin, GPIO.IN)  # activate input
 
-        if GPIO.input(pir_pin):
-            return 1
+        for i in range(100):
+            if GPIO.input(pir_pin):
+                return 1
+            time.sleep(.5)

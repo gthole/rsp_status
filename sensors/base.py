@@ -10,13 +10,13 @@ class BaseSensor:
         pass
 
     def run(self):
-        value = self.run()
+        value = self.read()
         if value:
             self._store(value)
 
     def _store(self, value):
         now = datetime.now()
-        mongo.put({'time': now, 'val': value})
+        mongo.put(self.collection, {'time': now, 'val': value})
 
     def last(self):
         last = mongo.get_last(self.collection)

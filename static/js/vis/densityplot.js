@@ -76,7 +76,7 @@ function densityPlot(data, selector) {
   var heatMap = svg.selectAll(".hour")
       .data(aggData)
       .enter().append("rect")
-      .attr("x", function(d) { return (d.hour - 1) * gridSize; })
+      .attr("x", function(d) { return (d.hour) * gridSize; })
       .attr("y", function(d) { return (d.day - 1) * gridSize; })
       .attr("rx", 4)
       .attr("ry", 4)
