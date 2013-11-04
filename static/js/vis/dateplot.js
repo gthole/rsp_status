@@ -1,7 +1,7 @@
 function datePlot(data, selector) {
     var margin = {top: 20, right: 20, bottom: 30, left: 50},
         width = 960 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        height = 300 - margin.top - margin.bottom;
 
     var parseDate = Date.parse;
 
@@ -37,7 +37,7 @@ function datePlot(data, selector) {
     });
 
     x.domain(d3.extent(data, function(d) { return d.time; }));
-    y.domain([d3.min(data, function(d) { return d.val; }), d3.max(data, function(d) { return d.val; })]);
+    y.domain([Math.min(d3.min(data, function(d) { return d.val; }), 30), d3.max(data, function(d) { return d.val; })]);
 
     svg.append("path")
       .datum(data)

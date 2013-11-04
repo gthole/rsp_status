@@ -3,7 +3,8 @@ $(document).ready(function() {
 
   $.getJSON('http://10.0.1.21:5000/temp/',
     function(response) {
-      $("#temp").html(response[response.length - 1].val + '°');
+      var latest = response[response.length - 1].val;
+      $("#temp").html(latest.toFixed(1) + '°');
   });
 
   $.getJSON('http://10.0.1.21:5000/motion/',

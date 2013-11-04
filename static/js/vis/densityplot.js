@@ -11,10 +11,11 @@ function densityPlot(data, selector) {
       colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0",
                 "#225ea8","#253494","#081d58"],
       days = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-      times = ["1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a",
-               "11a", "12a", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p",
-               "9p", "10p", "11p", "12p"];
+      times = ["12a", "1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a",
+               "10a", "11a", "12p", "1p", "2p", "3p", "4p", "5p", "6p", "7p",
+               "8p", "9p", "10p", "11p"];
 
+  // Offset so today is the bottom row.
   days = days.slice(7 - dayOffset, 7).concat(days.slice(0, 7 - dayOffset));
 
   // Aggregate sensor data 
@@ -37,7 +38,7 @@ function densityPlot(data, selector) {
 
   function scaleFill(d) {
     if (d.day == 7 && d.hour >= hourLimit) {
-      return '#F8F8F8';
+      return '#FFA500';
     } else {
       return colorScale(d.value);
     }
@@ -63,7 +64,17 @@ function densityPlot(data, selector) {
         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
         .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"); });
 
-  var timeLabels = svg.selectAll(".timeLabel")
+  var lowerTimeLabels = svg.selectAll(".timeLabel")
+      .data(times)
+      .enter().append("text")
+        .text(function(d) { return d; })
+        .attr("x", function(d, i) { return i * gridSize; })
+        .attr("y", height)
+        .style("text-anchor", "middle")
+        .attr("transform", "translate(" + gridSize / 2 + ", -6)")
+        .attr("class", function(d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
+
+  var upperTimeLabels = svg.selectAll(".upperTimeLabel")
       .data(times)
       .enter().append("text")
         .text(function(d) { return d; })
@@ -83,7 +94,7 @@ function densityPlot(data, selector) {
       .attr("class", "hour bordered")
       .attr("width", gridSize)
       .attr("height", gridSize)
-      .style("fill", '#F8F8F8');
+      .style("fill", colors[0]);
 
   heatMap.transition().duration(1000)
       .style("fill", scaleFill);
@@ -97,14 +108,14 @@ function densityPlot(data, selector) {
 
   legend.append("rect")
     .attr("x", function(d, i) { return legendElementWidth * i; })
-    .attr("y", height)
+    .attr("y", height + 20)
     .attr("width", legendElementWidth)
     .attr("height", gridSize / 2)
     .style("fill", function(d, i) { return colors[i]; });
 
   legend.append("text")
     .attr("class", "mono")
-    .text(function(d) { return "≥ " + Math.round(d); })
+    .text(function(d) { return "> " + Math.round(d); })
     .attr("x", function(d, i) { return legendElementWidth * i; })
-    .attr("y", height + gridSize);
+    .attr("y", 20 + height + gridSize);
 }
