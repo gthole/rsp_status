@@ -1,2 +1,5 @@
 iso8601
-pymongo
+flask
+flask-mongorest
+flask-views
+python-dateutil

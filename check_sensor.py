@@ -11,11 +11,10 @@ SENSOR_REGISTY = {
 }
 
 WAIT_TIME = 60 * int(sys.argv[1])
-SENSORS = [SENSOR_REGISTY[name] for name in sys.argv[2:]
-           if name in SENSOR_REGISTY]
-print "Checking %s every %d seconds" % (SENSORS, WAIT_TIME)
+SENSOR = SENSOR_REGISTY[sys.argv[2]]
+
+print "Checking %s every %d seconds" % (SENSOR, WAIT_TIME)
 
 while True:
-    for sensor in SENSORS:
-        sensor().run()
-        time.sleep(WAIT_TIME)
+    SENSOR().run()
+    time.sleep(WAIT_TIME)

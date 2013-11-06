@@ -1,57 +1,107 @@
-from backends import mongo
+from flask import Flask, request
+from flask.ext.mongoengine import MongoEngine
+from flask.ext.mongorest import MongoRest
+from flask.ext.mongorest.views import ResourceView
+from flask.ext.mongorest.resources import Resource
+from flask.ext.mongorest import operators as ops
+from flask.ext.mongorest import methods
+from flask.ext.mongorest.authentication import AuthenticationBase
+from config import settings
 import os
-import json
-from urlparse import parse_qs
-from datetime import datetime, timedelta
-import logging
-import iso8601
-
-ENDPOINTS = ['/temp/', '/motion/', '/flood/']
 
 
-def application(environ, start_response):
-    if environ['REQUEST_METHOD'] != 'GET':
-        status = '405 Method Not Allowed'
-        data = {'message': 'Only GET requests supported'}
-    elif environ['PATH_INFO'] in ENDPOINTS:
-        try:
-            status = '200 OK'
-            data = make_response(environ)
-        except iso8601.ParseError:
-            status = '400 Not Found'
-            data = {'message': 'Malformed parameter'}
-        except:
-            logging.exception("Caught exception:\n\n%s" % environ)
-            status = '500 Server Error'
-            data = {'message': 'Server error'}
-    else:
-        status = '404 Not Found'
-        data = {'message': 'Resource not found'}
+app = Flask(__name__)
 
-    content = json.dumps(data)
-    headers = [
-        ("Content-Type", "application/json"),
-        ("Content-Length", str(len(content)))
-    ]
-    start_response(
-        status,
-        headers
-    )
-    return [content]
+app.config.update(
+    MONGODB_HOST=getattr(settings, 'MONGODB_HOST'),
+    MONGODB_PORT=getattr(settings, 'MONGODB_PORT'),
+    MONGODB_DB=getattr(settings, 'MONGODB_DB')
+)
+
+db = MongoEngine(app)
+api = MongoRest(app, url_prefix='/api/v1')
 
 
-def make_response(environ):
-    collection = environ['PATH_INFO'].strip('/')
-    params = parse_qs(environ['QUERY_STRING'])
-    if params.get('since'):
-        since = iso8601.parse_date(params['since'][0])
-    else:
-        since = datetime.now() - timedelta(days=7)
+#######################
+# Base configurations #
+#######################
 
-    return mongo.get_since(collection, since)
+class ApiKeyAuthentication(AuthenticationBase):
+    def authorized(self):
+        return request.headers.get('AUTHENTICATION') == settings.API_TOKEN
 
 
-if __name__ == '__main__':
-    from wsgiref.simple_server import make_server
-    port = int(os.getenv('PORT', 8888))
-    make_server('', port, application).serve_forever()
+class BaseDocument(db.Document):
+    meta = {'allow_inheritance': True}
+    val = db.IntField()
+    time = db.DateTimeField()
+    station = db.StringField()
+
+
+class BaseResource(Resource):
+    filters = {
+        'time': [ops.Gt, ops.Lt],
+        'station': [ops.Exact],
+    }
+
+
+class BaseView(ResourceView):
+    authentication_methods = [ApiKeyAuthentication]
+    methods = [methods.Create, methods.Fetch, methods.List]
+
+
+#######################
+#      Documents      #
+#######################
+
+class Motion(BaseDocument):
+    pass
+
+
+class Temp(BaseDocument):
+    val = db.FloatField()
+
+
+class Flood(BaseDocument):
+    pass
+
+
+#######################
+#      Resources      #
+#######################
+
+class MotionResource(BaseResource):
+    document = Motion
+
+
+class TempResource(BaseResource):
+    document = Temp
+
+
+class FloodResource(BaseResource):
+    document = Flood
+
+
+#######################
+#        Views        #
+#######################
+
+@api.register(name='motion', url='/motion/')
+class MotionView(BaseView):
+    resource = MotionResource
+
+
+@api.register(name='temp', url='/temp/')
+class TempView(BaseView):
+    resource = TempResource
+
+
+@api.register(name='flood', url='/flood/')
+class FloodView(BaseView):
+    resource = FloodResource
+
+
+if __name__ == "__main__":
+    print app.url_map._rules
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)

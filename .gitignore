@@ -5,3 +5,6 @@ virtualenv
 
 # Dev convenience
 static/fixtures
+
+# Local settings
+config/settings_*

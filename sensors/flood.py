@@ -1,11 +1,14 @@
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    pass
 import time
 from config import settings
 from base import BaseSensor
 
 
 class FloodSensor(BaseSensor):
-    collection = 'flood'
+    slug = 'flood'
 
     def read(self):
         GPIO.setmode(GPIO.BCM)

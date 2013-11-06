@@ -5,7 +5,8 @@ from base import BaseSensor
 
 
 class TemperatureSensor(BaseSensor):
-    collection = 'temp'
+    slug = 'temp'
+    val_type = float
 
     def read(self):
         os.system('modprobe w1-gpio')

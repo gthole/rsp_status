@@ -1,8 +1,9 @@
-from backends import mongo
+from backends import http
 from datetime import datetime
+from config import settings
 
 
-class BaseSensor:
+class BaseSensor(object):
     def read(self):
         raise NotImplementedError
 
@@ -16,9 +17,9 @@ class BaseSensor:
 
     def _store(self, value):
         now = datetime.now()
-        mongo.put(self.collection, {'time': now, 'val': value})
-
-    def last(self):
-        last = mongo.get_last(self.collection)
-        if last:
-            return last.get('val')
+        payload = {
+            'val': value,
+            'time': now,
+            'station': settings.STATION
+        }
+        http.post_to_api(self.slug, payload)

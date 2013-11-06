@@ -1,11 +1,14 @@
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    pass
 from base import BaseSensor
 from config import settings
 import time
 
 
 class MotionSensor(BaseSensor):
-    collection = 'motion'
+    slug = 'motion'
 
     def read(self):
         GPIO.setmode(GPIO.BCM)
