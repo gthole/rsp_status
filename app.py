@@ -43,6 +43,7 @@ class BaseResource(Resource):
         'time': [ops.Gt, ops.Lt],
         'station': [ops.Exact],
     }
+    allowed_ordering = ['time']
 
 
 class BaseView(ResourceView):
