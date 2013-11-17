@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask.ext.mongoengine import MongoEngine
 from flask.ext.mongorest import MongoRest
 from flask.ext.mongorest.views import ResourceView
@@ -7,7 +7,6 @@ from flask.ext.mongorest import operators as ops
 from flask.ext.mongorest import methods
 from flask.ext.mongorest.authentication import AuthenticationBase
 from config import settings
-import os
 
 
 app = Flask(__name__)
@@ -102,7 +101,15 @@ class FloodView(BaseView):
     resource = FloodResource
 
 
+@app.route('/api/v1/stations/')
+def stations(request):
+    """
+    Manual endpoint for listing sensor stations.
+    """
+    return 200, jsonify(settings.STATIONS)
+
+
 if __name__ == "__main__":
-    print app.url_map._rules
+    import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
