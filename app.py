@@ -18,7 +18,7 @@ app.config.update(
 )
 
 db = MongoEngine(app)
-api = MongoRest(app, url_prefix='/api/v1')
+api = MongoRest(app)
 
 
 #######################
@@ -27,6 +27,8 @@ api = MongoRest(app, url_prefix='/api/v1')
 
 class ApiKeyAuthentication(AuthenticationBase):
     def authorized(self):
+        if request.method in ['GET', 'HEAD']:
+            return True
         return request.headers.get('AUTHENTICATION') == settings.API_TOKEN
 
 
