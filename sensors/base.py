@@ -19,7 +19,7 @@ class BaseSensor(object):
         now = datetime.now()
         payload = {
             'val': value,
-            'time': now,
+            'time': now.isoformat(),
             'station': settings.STATION
         }
         http.post_to_api(self.slug, payload)
