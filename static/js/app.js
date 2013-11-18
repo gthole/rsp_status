@@ -27,17 +27,17 @@ $(document).ready(function() {
 
   // Only show graphs on large-width screens
   if (window.screen.width > 1000) {
-    var d = new Date();
+    d = new Date();
     d.setDate(d.getDate() - 7);
     $.getJSON(
       '/api/v1/temp/?time__gt=' + d.toISOString(),
       function(response) {
-        datePlot(response, '#temp-graph');
+        datePlot(response['data'], '#temp-graph');
       });
     $.getJSON(
       '/api/v1/motion/?time_gt=' + d.toISOString(),
       function(response) {
-        densityPlot(response, '#motion-graph');
+        densityPlot(response['data'], '#motion-graph');
       });
   }
 });
