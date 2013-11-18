@@ -3,3 +3,6 @@ flask
 flask-mongorest
 flask-views
 python-dateutil
+flask-mongoengine
+mimerender
+requests
