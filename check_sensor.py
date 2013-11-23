@@ -17,5 +17,7 @@ SENSOR = SENSOR_REGISTY[sys.argv[2]]
 logging.warning("Checking %s every %d seconds" % (SENSOR, WAIT_TIME))
 
 while True:
+    start = time.time()
     SENSOR().run()
-    time.sleep(WAIT_TIME)
+    end = time.time()
+    time.sleep(max(WAIT_TIME - (end - start), 1))
