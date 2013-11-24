@@ -9,6 +9,15 @@ HOST_NAME = 'http://localhost:8000'
 STATION = 'Default'
 API_TOKEN = None
 
+EMAIL_USER = None
+EMAIL_PASS = None
+EMAIL_ADDY = None
+EMAIL_PORT = '587'
+EMAIL_STLS = False
+
+NOTIFY = []
+ADMINS = []
+
 try:
     from settings_local import *
 except ImportError:

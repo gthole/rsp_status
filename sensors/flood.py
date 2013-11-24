@@ -2,6 +2,7 @@ try:
     import RPi.GPIO as GPIO
 except ImportError:
     pass
+
 from config import settings
 from base import BaseSensor
 
@@ -18,3 +19,9 @@ class FloodSensor(BaseSensor):
                 return
 
         return 1
+
+    def _should_notify(self, value):
+        return bool(value)
+
+    def _format_value(self, value):
+        return "flooding"

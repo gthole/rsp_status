@@ -1,6 +1,8 @@
 import os
 import glob
 import time
+
+from config import settings
 from base import BaseSensor
 
 
@@ -32,3 +34,11 @@ class TemperatureSensor(BaseSensor):
         lines = f.readlines()
         f.close()
         return lines
+
+    def _should_notify(self, value):
+        if not isinstance(value, float):
+            return False
+        return (value > settings.HIGH_TEMP) or (value < settings.LOW_TEMP)
+
+    def _format_value(self, value):
+        return "%s degrees F" % value
