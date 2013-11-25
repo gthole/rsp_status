@@ -15,6 +15,9 @@ EMAIL_ADDY = None
 EMAIL_PORT = '587'
 EMAIL_STLS = False
 
+HIGH_TEMP = 90
+LOW_TEMP = 28
+
 NOTIFY = []
 ADMINS = []
 
