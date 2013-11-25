@@ -27,6 +27,6 @@ try:
         time.sleep(max(WAIT_TIME - (end - start), 1))
 except:
     notifier.alert(
-        "Sensor loop %s has crashed" % sys.argv[1],
+        "Sensor loop %s has crashed" % sys.argv[2],
         "%s\n\n%s" % (datetime.datetime.now(), traceback.format_exc())
     )
