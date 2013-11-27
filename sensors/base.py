@@ -30,7 +30,7 @@ class BaseSensor(object):
         if self._should_notify(value):
             subject = "%s Alert at %s" % (
                 self.slug.capitalize(), settings.STATION)
-            message = "Recorded %s at %s" (self._format_value(value), time)
+            message = "Recorded %s at %s" % (self._format_value(value), time)
             notifier.notify(subject, message)
 
     def _should_notify(self, value):
