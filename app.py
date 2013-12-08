@@ -19,6 +19,7 @@ app.config.update(
 
 db = MongoEngine(app)
 api = MongoRest(app)
+app.debug = True
 
 
 #######################
@@ -44,7 +45,7 @@ class BaseResource(Resource):
         'time': [ops.Gt, ops.Lt],
         'station': [ops.Exact],
     }
-    allowed_ordering = ['time']
+    allowed_ordering = ['-time']
 
 
 class BaseView(ResourceView):
@@ -103,12 +104,12 @@ class FloodView(BaseView):
     resource = FloodResource
 
 
-@app.route('/api/v1/stations/')
-def stations(request):
+@app.route('/stations/')
+def stations():
     """
     Manual endpoint for listing sensor stations.
     """
-    return 200, jsonify(settings.STATIONS)
+    return jsonify({'data': settings.STATIONS})
 
 
 if __name__ == "__main__":

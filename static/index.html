@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Raspberry Basement Status</title>
-    	<meta charset="utf-8">
+        <title>RaspberryPi Sensor Status</title>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" media="all" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" media="all" href="css/styles.css"/>
@@ -10,7 +10,11 @@
     </head>
     <body>
         <div class="container">
-            <h1>Raspberry Status</h1>
+            <h1 id="title"></h1>
+            <div id="select-station-row" class="row" hidden>
+                Select station: <select id="select-station"></select>
+            </div>
+            <br />
             <div class="row">
                 <div class="col-md-4">
                     <div class="status">

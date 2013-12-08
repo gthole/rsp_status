@@ -41,3 +41,11 @@ h2 {
   margin-left:auto;
   margin-right:auto;
 }
+
+.select-station-row option {
+    text-transform: capitalize;
+}
+
+.select-station-row {
+  margin-left: 10px;
+}

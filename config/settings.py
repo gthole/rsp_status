@@ -6,7 +6,8 @@ FLOOD_PIN = 18
 MOTION_PIN = 23
 
 HOST_NAME = 'http://localhost:8000'
-STATION = 'Default'
+STATION = 'Default'  # Name of this station
+STATIONS = ['Default']  # List of all station names
 API_TOKEN = None
 
 EMAIL_USER = None
