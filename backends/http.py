@@ -26,7 +26,9 @@ def post_to_api(slug, payload):
             )
             status = response.status_code
             assert status == 200
-        except (AssertionError, ConnectionError):
+        except ConnectionError:
+            logging.error(traceback.format_exc())
+        except AssertionError:
             logging.error("\n\n".join([status, traceback.format_exc(),
                                        response.content]))
             pass
